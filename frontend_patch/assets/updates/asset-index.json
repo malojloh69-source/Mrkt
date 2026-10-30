@@ -1,0 +1,349 @@
+{
+  "description": "Illustrations isolated from user-provided reference screenshots. Artwork only: card backgrounds, prices and usernames excluded. Upscaling does not add source detail.",
+  "assets": [
+    {
+      "file": "assets/updates/channel-bear.webp",
+      "size": [
+        512,
+        512
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/channel-coconut.webp",
+      "size": [
+        512,
+        512
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/channel-eastercake.webp",
+      "size": [
+        512,
+        512
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/channel-glasses.webp",
+      "size": [
+        512,
+        512
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/channel-icecream.webp",
+      "size": [
+        512,
+        512
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/channel-redo.webp",
+      "size": [
+        512,
+        512
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/channel-sandcastle.webp",
+      "size": [
+        512,
+        512
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/channel-surfboard.webp",
+      "size": [
+        512,
+        512
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-1.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-10.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-11.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-12.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-13.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-14.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-15.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-16.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-17.webp",
+      "size": [
+        128,
+        128
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-18.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-19.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-2.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-20.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-21.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-22.webp",
+      "size": [
+        128,
+        128
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-23.webp",
+      "size": [
+        128,
+        128
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-24.webp",
+      "size": [
+        128,
+        128
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-25.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-26.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-27.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-28.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-29.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-3.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-30.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-31.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-32.webp",
+      "size": [
+        128,
+        128
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-33.webp",
+      "size": [
+        128,
+        128
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-34.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-35.webp",
+      "size": [
+        128,
+        128
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-4.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-5.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-6.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-7.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-8.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    },
+    {
+      "file": "assets/updates/collection-9.webp",
+      "size": [
+        110,
+        102
+      ],
+      "alpha": true
+    }
+  ]
+}

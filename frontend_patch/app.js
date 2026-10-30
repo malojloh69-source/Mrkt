@@ -7,7 +7,8 @@
     const embedded=window.__MRKT_ASSETS?.[path]||window.__MRKT_ASSETS?.[clean]||window.__MRKT_ASSETS?.[`assets/${clean}`];
     if(embedded)return embedded;
     if(/^data:image\//.test(path))return path;
-    if(/^https?:\/\//.test(path))return "";
+    if(/^https:\/\//.test(path)){try{const u=new URL(path);return !u.username&&!u.password?u.href:"";}catch{return "";}}
+    if(/^http:\/\//.test(path))return "";
     return `assets/${clean}`;
   };
   const escape = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -182,19 +183,21 @@
     return list;
   }
   function nftActions(g){
+    if(g.read_only)return "";
     if(g.currency==="USD")return "";
     const bakedLucky=["lol-pop","big-year-telegramium","big-year-constructor","big-year-1984"].includes(g.id)?" baked-lucky":"",bakedStake=["lol-pop"].includes(g.id)?" baked-stake":"";
     return `<div class="nft-actions${bakedLucky}${bakedStake}"><button class="nft-quick-button nft-lucky-button" data-lucky-id="${escape(g.id)}" aria-label="Lucky Buy: ${escape(g.name)} #${escape(g.number)}"><span class="nft-quick-icon original-mask" style="mask-image:url('${escape(asset("original/inline-svg/svg-d710e71bf9fa5b2e.svg"))}')" aria-hidden="true"></span></button><button class="nft-quick-button nft-staking-button" data-go="/staking" aria-label="Стейкинг подарков"><span class="nft-quick-icon original-mask" style="mask-image:url('${escape(asset("original/inline-svg/svg-579b33a066a3638f.svg"))}')" aria-hidden="true"></span></button></div>`;
   }
-  function giftCard(g){const inCart=state.cart.includes(g.id);return `<article class="gift-card"><div class="gift-art${g.exactImage?" exact":""}"><div class="gift-image">${pic(g.image,g.name)}</div>${nftActions(g)}${g.exactImage?"":`<button class="gift-heart${state.favorites.includes(g.id)?" selected":""}" data-favorite="${escape(g.id)}" aria-label="${state.favorites.includes(g.id)?"Убрать из избранного":"Добавить в избранное"}" aria-pressed="${state.favorites.includes(g.id)}">${icon("heart")}</button>`}</div><div class="gift-meta"><h3>${escape(g.name)}</h3><p class="gift-number">#${escape(g.number)}</p><div class="gift-controls"><button class="gift-buy" data-buy="${escape(g.id)}">${g.currency==="USD"?"$":gram()}${money(g.price,g.currency)}</button><button class="gift-cart icon-button${inCart?" in-cart":""}" aria-pressed="${inCart}" data-cart-add="${escape(g.id)}" aria-label="В корзину: ${escape(g.name)}">${inCart?icon("check"):pic("ui/cart.png")}</button></div></div></article>`;}
+  function giftCard(g){if(g.read_only)return `<article class="gift-card public-market-card"><div class="gift-art"><div class="gift-image">${g.image?pic(g.image,g.name,'','loading="lazy" decoding="async" referrerpolicy="no-referrer"'):'<span class="market-no-art">'+icon('gift')+'</span>'}</div></div><div class="gift-meta"><h3>${escape(g.name)}</h3><p class="gift-number">#${escape(g.number??'—')}</p><button class="gift-buy" data-up-live-gift="${escape(g.id)}" aria-label="Подробнее: ${escape(g.name)} #${escape(g.number??'')}">${money(g.price)} <small>TON</small></button></div></article>`;const inCart=state.cart.includes(g.id);return `<article class="gift-card"><div class="gift-art${g.exactImage?" exact":""}"><div class="gift-image">${pic(g.image,g.name)}</div>${nftActions(g)}${g.exactImage?"":`<button class="gift-heart${state.favorites.includes(g.id)?" selected":""}" data-favorite="${escape(g.id)}" aria-label="${state.favorites.includes(g.id)?"Убрать из избранного":"Добавить в избранное"}" aria-pressed="${state.favorites.includes(g.id)}">${icon("heart")}</button>`}</div><div class="gift-meta"><h3>${escape(g.name)}</h3><p class="gift-number">#${escape(g.number)}</p><div class="gift-controls"><button class="gift-buy" data-buy="${escape(g.id)}">${g.currency==="USD"?"$":gram()}${money(g.price,g.currency)}</button><button class="gift-cart icon-button${inCart?" in-cart":""}" aria-pressed="${inCart}" data-cart-add="${escape(g.id)}" aria-label="В корзину: ${escape(g.name)}">${inCart?icon("check"):pic("ui/cart.png")}</button></div></div></article>`;}
   function orderCard(g){return `<article class="order-card"><div class="order-art">${pic("ui/orders-placeholder.png")}<div class="order-price">${gram()}<span>${money(g.price,g.currency)}</span></div><button class="card-info" data-action="order-info" aria-label="Информация об ордерах">${icon("info")}</button></div><div class="order-actions"><button class="secondary" data-action="all-orders">Все ордеры</button><button class="primary" data-sell="${g.id}">Быстрая продажа</button></div></article>`;}
   function empty(title,text,action=""){return `<section class="empty-state">${icon("bag")}<h2>${title}</h2><p>${text}</p>${action}</section>`;}
   function renderCatalogResults(){
     const target=el("catalog-results");if(!target)return;
-    target.parentElement.querySelectorAll(".snapshot-note").forEach(note=>note.remove());
+    target.parentElement.querySelectorAll(".snapshot-note,.market-more").forEach(note=>note.remove());
     let list=filteredGifts();
     if(state.category==="cs2"){target.className="";target.innerHTML=window.__MRKT_UPDATES.unavailable("skins");return;}
     if(state.category==="channels"){window.__MRKT_UPDATES.renderChannels(target);return;}
+    if(window.__MRKT_MARKET?.state.connected)main.querySelector(".bulk-buy")?.remove();
     if(state.category==="packs"){
       const matching=bundles.filter(b=>{
         if(state.query&&!`${b.name} ${b.group} ${b.numbers.join(" ")} ${b.nftNames.join(" ")}`.toLowerCase().includes(state.query.trim().toLowerCase()))return false;
@@ -207,15 +210,16 @@
       target.className="bundle-market-list";target.innerHTML=matching.length?matching.map(bundleCard).join(""):empty("Ничего не найдено","Измените поиск коллекции.");return;
     }
     target.className=list.length?"catalog-grid":"";
-    if(!source(state.category==="cs2"?"skins":"catalog")){target.className="";target.innerHTML=empty("Источник каталога не подключён","Подтверждённый снимок товаров и цен пока не добавлен.");return;}
+    if(!window.__MRKT_MARKET?.state.connected&&!source("catalog")){target.className="";target.innerHTML=empty("Источник каталога не подключён","Подтверждённый снимок товаров и цен пока не добавлен.");return;}
     if(!list.length){target.innerHTML=snapshotNote("catalog")+empty("Ничего не найдено","Попробуйте изменить поиск или сбросить фильтры.",'<button class="secondary" data-action="reset-filters">Сбросить фильтры</button>');return;}
     if(state.view==="orders"&&state.category==="gifts"){const realOrders=sourceItems("orders");target.innerHTML=realOrders.length?realOrders.map(orderCard).join(""):empty("Источник ордеров не подключён","Ордеры не создаются из товаров каталога.");return;}
     target.innerHTML=list.map(giftCard).join("");
+    if(window.__MRKT_MARKET?.state.connected&&window.__MRKT_MARKET.state.next!==null)target.insertAdjacentHTML("afterend",'<button class="secondary market-more" data-market-more>Загрузить ещё</button>');
     target.insertAdjacentHTML("beforebegin",snapshotNote(state.category==="cs2"?"skins":"catalog"));
   }
   function market(){
     const tabs=[["gifts","Подарки","gift-tab.png"],["cs2","CS2-скины","cs2.png"],["stars","Звёзды","star-tab.png"],["packs","Коллекции","orders.png"],["channels","Каналы","telegram-tab.png"]];
-    return `<div class="page-pad"><div class="promo-carousel" id="promo-carousel" aria-label="События">${banners.map(renderBanner).join("")}</div><div class="category-row"><div class="category-tabs" aria-label="Категории">${tabs.map(([id,label,img])=>`<button class="category-tab${state.category===id?" active":""}" data-category="${id}" aria-label="${label}">${id==="packs"?icon("collection"):pic(`ui/${img}`)}${state.category===id?`<span>${label}</span>`:""}</button>`).join("")}</div><button class="icon-button cart-button" data-action="cart" aria-label="Корзина">${pic("ui/cart.png")}${state.cart.length?`<span class="cart-count">${state.cart.length}</span>`:""}</button></div></div>${state.category==="stars"?starsPane():searchTools()+`<div id="catalog-results"></div>`}${state.category==="gifts"||state.category==="cs2"?`<button class="bulk-buy" data-action="cart">${icon("bag")}Купить оптом</button>`:""}`;
+    return `<div class="page-pad"><div class="promo-carousel" id="promo-carousel" aria-label="События">${banners.map(renderBanner).join("")}</div><div class="category-row"><div class="category-tabs" aria-label="Категории">${tabs.map(([id,label,img])=>`<button class="category-tab${state.category===id?" active":""}" data-category="${id}" aria-label="${label}">${id==="packs"?icon("collection"):pic(`ui/${img}`)}${state.category===id?`<span>${label}</span>`:""}</button>`).join("")}</div><button class="icon-button cart-button" data-action="cart" aria-label="Корзина">${pic("ui/cart.png")}${state.cart.length?`<span class="cart-count">${state.cart.length}</span>`:""}</button></div></div>${state.category==="stars"?starsPane():(["channels","cs2"].includes(state.category)?"":searchTools())+`<div id="catalog-results"></div>`}${state.category==="gifts"&&!window.__MRKT_MARKET?.state.connected?`<button class="bulk-buy" data-action="cart">${icon("bag")}Купить оптом</button>`:""}`;
   }
   function renderBanner(banner,index){
     const title=banner.content?.[0],action=banner.content?.[1];
@@ -643,7 +647,7 @@
   window.__MRKT_OPEN_LUCKY=id=>id?openLuckyById(id):navigate("/lucky-buy");
   window.__MRKT_OPEN_ORDER=orderReference;
   window.__MRKT_OPEN_FUNDS=kind=>funding(kind==="withdraw"?"withdraw":"deposit");
-  window.__MRKT_APP={account,state,render,navigate,showSheet,closeSheet,toast,asset,pic,icon,gram,money,escape,giftById,currentGift:()=>purchaseGift};
+  window.__MRKT_APP={account,state,render,navigate,showSheet,closeSheet,toast,asset,pic,icon,gram,money,escape,giftById,currentGift:()=>purchaseGift,setCatalog(items){catalog=items;if(state.route==="/"&&state.category==="gifts")renderCatalogResults();}};
   state.route=getRoute();render();setInterval(updateTimer,1000);bootstrap();
   setInterval(()=>{if(serverReady&&!window.__MRKT_OFFLINE&&!document.hidden){refreshCatalog();refreshOffers();}},30000);
   document.addEventListener("scroll",event=>{if(event.target?.id==="promo-carousel"&&event.target.clientWidth>0){bannerIndex=Math.round(event.target.scrollLeft/event.target.clientWidth);bannerTouchedAt=Date.now();}},true);
