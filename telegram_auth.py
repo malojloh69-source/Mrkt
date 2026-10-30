@@ -24,7 +24,7 @@ def verify_init_data(raw, token, *, now=None, max_age=300):
     try:
         age=(time.time() if now is None else now)-int(fields['auth_date'])
         user=json.loads(fields['user'])
-        if not isinstance(user.get('id'),int) or isinstance(user['id'],bool):
+        if not isinstance(user,dict) or not isinstance(user.get('id'),int) or isinstance(user['id'],bool) or user['id']<=0:
             raise ValueError()
     except (KeyError,ValueError,TypeError):
         raise AuthError('Invalid Telegram identity') from None

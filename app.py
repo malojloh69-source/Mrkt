@@ -2,8 +2,10 @@
 import atexit
 import functools
 import logging
+import re
 import time
 from pathlib import Path
+from urllib.parse import urlsplit
 from flask import Flask, jsonify, request, send_from_directory
 from settings import ROOT, Settings
 from storage import Store
@@ -53,6 +55,50 @@ def create_app(settings=None, *, store=None, collector=None, bot=None):
     @app.get('/api/status')
     def status():
         return jsonify({**collector.status(),'server_time':time.time(),'independent_app':True,'read_only':True})
+
+    @app.post('/api/telegram/me')
+    def telegram_profile():
+        body=request.get_json(silent=True)
+        if not isinstance(body,dict):
+            return jsonify(error='invalid_request'),400
+        try:
+            user=verify_init_data(body.get('initData',''),settings.bot_token)
+        except (AuthError,ValueError,TypeError):
+            return jsonify(error='telegram_authorization_required',message='Откройте миниапп заново из кнопки вашего бота.'),403
+        profile={'id':user['id']}
+        for field in ('first_name','last_name','username'):
+            value=user.get(field)
+            if isinstance(value,str):profile[field]=value[:128]
+        photo=user.get('photo_url')
+        if isinstance(photo,str) and len(photo)<=4096:
+            try:
+                parsed=urlsplit(photo)
+                if parsed.scheme=='https' and parsed.hostname and not parsed.username and not parsed.password:
+                    profile['photo_url']=photo
+            except ValueError:pass
+        return jsonify(user=profile,verified=True,read_only=True)
+
+    @app.post('/api/reports')
+    def report():
+        body=request.get_json(silent=True)
+        if not isinstance(body,dict):return jsonify(error='invalid_request'),400
+        try:user=verify_init_data(body.get('initData',''),settings.bot_token)
+        except (AuthError,ValueError,TypeError):return jsonify(error='telegram_authorization_required'),403
+        item=body.get('item','')
+        if not isinstance(item,str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,100}',item):
+            return jsonify(error='invalid_item'),400
+        # A report belongs to this independent application, never to Telegram/MRKT.
+        created=store.report(user['id'],item)
+        return jsonify(ok=created,duplicate=not created,destination='application_moderation'),201 if created else 409
+
+    @app.get('/api/admin/reports')
+    def reports_require_post():
+        return jsonify(error='owner_authorization_required'),403
+
+    @app.post('/api/admin/reports')
+    @admin
+    def report_list(body):
+        return jsonify(reports=store.reports())
 
     @app.get('/api/catalog')
     def catalog():

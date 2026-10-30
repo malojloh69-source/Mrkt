@@ -8,16 +8,34 @@ import tempfile
 import zipfile
 from pathlib import Path
 
+def apply_frontend_patch(root,public):
+    """Keep reviewed text/assets separately editable from the large base bundle."""
+    patch=Path(root)/'frontend_patch'
+    if patch.is_dir():
+        for source in sorted(patch.rglob('*')):
+            relative=source.relative_to(patch)
+            if source.is_symlink() or any(part.startswith('.') for part in relative.parts):
+                raise RuntimeError('Invalid frontend patch member')
+            if source.is_file():
+                target=Path(public)/relative
+                if any(parent.is_symlink() for parent in [target,*target.parents] if parent!=Path(root).parent):
+                    raise RuntimeError('Invalid frontend patch destination')
+                target.parent.mkdir(parents=True,exist_ok=True)
+                if not target.is_file() or target.read_bytes()!=source.read_bytes():
+                    temporary=target.with_name(target.name+'.updating')
+                    temporary.write_bytes(source.read_bytes());os.replace(temporary,target)
+    return public
+
 def ensure_site(root):
     root=Path(root);public=root/'public';bundle=root/'site_bundle';manifest=bundle/'manifest.json'
     if not manifest.is_file():
         if (public/'index.html').is_file():
-            return public
+            return apply_frontend_patch(root,public)
         raise RuntimeError('Frontend bundle is missing')
     meta=json.loads(manifest.read_text())
     version=meta['sha256'];marker=public/'.bundle-version'
     if marker.is_file() and marker.read_text()==version and (public/'index.html').is_file():
-        return public
+        return apply_frontend_patch(root,public)
     with tempfile.TemporaryDirectory(prefix='.site-build-',dir=root) as tmp:
         temp=Path(tmp);archive=temp/'site.zip';digest=hashlib.sha256();size=0
         with archive.open('wb') as target:
@@ -49,4 +67,4 @@ def ensure_site(root):
         if public.exists():os.replace(public,previous)
         os.replace(staged,public)
         if previous.exists():shutil.rmtree(previous)
-    return public
+    return apply_frontend_patch(root,public)

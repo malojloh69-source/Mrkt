@@ -16,6 +16,7 @@ class Store:
             CREATE TABLE IF NOT EXISTS events(sequence INTEGER PRIMARY KEY AUTOINCREMENT,fingerprint TEXT UNIQUE NOT NULL,kind TEXT NOT NULL,body TEXT NOT NULL,observed REAL NOT NULL);
             CREATE INDEX IF NOT EXISTS events_observed ON events(observed);
             CREATE TABLE IF NOT EXISTS updates_done(id INTEGER PRIMARY KEY,completed REAL NOT NULL);
+            CREATE TABLE IF NOT EXISTS reports(user_id INTEGER NOT NULL,item TEXT NOT NULL,created REAL NOT NULL,PRIMARY KEY(user_id,item));
             ''')
 
     @contextlib.contextmanager
@@ -35,6 +36,15 @@ class Store:
         with self.connect() as db:
             row = db.execute('SELECT value FROM state WHERE key=?', (key,)).fetchone()
             return json.loads(row['value']) if row else default
+
+    def report(self,user_id,item):
+        with self.connect() as db:
+            cursor=db.execute('INSERT OR IGNORE INTO reports VALUES(?,?,?)',(user_id,item,time.time()))
+            return cursor.rowcount==1
+
+    def reports(self):
+        with self.connect() as db:
+            return [dict(row) for row in db.execute('SELECT user_id,item,created FROM reports ORDER BY created DESC LIMIT 500')]
 
     def set(self, key, value):
         with self.connect() as db:

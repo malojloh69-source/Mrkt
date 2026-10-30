@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#171718">
+  <meta name="description" content="Маркет подарков, коллекции и Halloween Fest.">
+  <title>Каталог подарков · независимый интерфейс</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="games.css">
+  <link rel="stylesheet" href="service.css">
+  <link rel="stylesheet" href="updates.css">
+  <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+  <script>window.__MRKT_LOCAL_ONLY = true;</script>
+</head>
+<body>
+  <div id="launch-screen" class="launch-screen" role="status" aria-label="Загрузка интерфейса">
+    <svg class="launch-spider" viewBox="0 0 50 160" aria-hidden="true"><path d="M25 0v110M18 118 4 105M18 122 2 119M32 118l14-13M32 122l16-3" stroke="#100c1a" stroke-width="3" fill="none"/><ellipse cx="25" cy="122" rx="13" ry="14" fill="#100c1a"/><circle cx="20" cy="119" r="4" fill="#8070bf"/><circle cx="30" cy="119" r="4" fill="#8070bf"/></svg>
+    <img class="launch-bat one" src="assets/original/cdn.tgmrkt.io/images/halloween-loader/bat-right.svg" alt="">
+    <img class="launch-bat two" src="assets/original/cdn.tgmrkt.io/images/halloween-loader/bat-right.svg" alt="">
+    <img class="launch-bat three" src="assets/original/cdn.tgmrkt.io/images/halloween-loader/bat-right.svg" alt="">
+    <div class="launch-badge">GIFTS</div>
+    <img class="launch-pumpkin" src="assets/original/cdn-0j8ze0.stg.tgmrkt.io/images/banners/halloween-week/pumpkin.webp" alt="Хеллоуинская тыква">
+    <h2>КАТАЛОГ<br>ПОДАРКОВ</h2><div class="launch-progress" aria-hidden="true"></div><p>Независимое приложение</p>
+  </div>
+  <div class="app-shell" id="app">
+    <div id="header"></div>
+    <main id="main" tabindex="-1"></main>
+  </div>
+  <nav id="navigation" class="bottom-navigation" aria-label="Основные разделы"></nav>
+  <dialog id="sheet" class="sheet" aria-labelledby="sheet-title"></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="catalog.js" defer></script>
+  <script src="reference-updates.js" defer></script>
+  <script src="updates.js" defer></script>
+  <script src="gift-data.js" defer></script>
+  <script src="catalog-ui.js" defer></script>
+  <script src="visual-guard.js" defer></script>
+  <script src="orders-data.js" defer></script>
+  <script src="motion.js" defer></script>
+  <script src="game-engine.js" defer></script>
+  <script src="game-data.js" defer></script>
+  <script src="games.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="data/exact-screens.js" defer></script>
+  <script src="screen-interactions.js" defer></script>
+  <script src="exact.js" defer></script>
+<script src="service.js" defer></script>
+</body>
+</html>
