@@ -7,6 +7,7 @@
   const art=(path,alt='',cls='')=>`<img src="assets/${esc(path.replace(/^assets\//,''))}" alt="${esc(alt)}" class="${cls}" loading="lazy" decoding="async">`;
   const icon=name=>ui().icon(name);
   const gram=()=>ui().gram();
+  const priceGram=()=>'<span class="price-static-gram" aria-hidden="true"></span>';
   const channelShield=()=>'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C9 4 5 5 3 5v7c0 5 5 9 9 11 4-2 9-6 9-11V5c-2 0-6-1-9-3Z" fill="currentColor"/><path d="M12 8v6" stroke="#282828" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1.4" fill="#282828"/></svg>';
   const amount=value=>Number(value).toLocaleString('en-US',{useGrouping:false,maximumFractionDigits:4});
   const note=()=>'<p class="reference-note">Сохранённые данные · 30 октября 2026 · текущая доступность не подтверждена</p>';
@@ -14,7 +15,7 @@
   const channels={query:'',collections:[],min:'',max:'',sort:'source'};
   const detail={tab:'details',view:'analytics',range:'all',kind:'all'};
   const ownUsername=()=>ui()?.account.verified&&ui().account.user?.username?'@'+ui().account.user.username:'';
-  const productPrice=()=>product.kind==='premium'?({3:10.3936,6:13.8649,12:25.1416}[product.period]):Math.round(product.amount/100*1.2958*10000)/10000;
+  const productPrice=()=>product.kind==='premium'?({3:10.3936,6:13.8649,12:25.1416}[product.period]):Math.round(product.amount/100*1.3045*10000)/10000;
   const star=kind=>art(`updates/${kind==='premium'?'premium':'stars'}.webp`,kind==='premium'?'Telegram Premium':'Telegram Stars','product-star');
   function preserveRender(){const y=window.scrollY;ui().render();window.scrollTo({top:y,behavior:'instant'});}
   function show(title,body,cls=''){
@@ -27,8 +28,8 @@
     return `<section class="products-view"><div class="product-form"><h2>ЧТО ВЫ ХОТИТЕ КУПИТЬ?<button class="icon-button" data-up="product-info" aria-label="Информация о Stars и Premium">${icon('info')}</button></h2>
       <fieldset class="product-kinds"><legend class="sr-only">Продукт Telegram</legend>${[['stars','Телеграм звезды'],['premium','Телеграм премиум']].map(([kind,label])=>`<label><input type="radio" name="product-kind" value="${kind}" ${product.kind===kind?'checked':''}><span>${label}</span>${star(kind)}</label>`).join('')}</fieldset>
       <label class="product-label" for="product-recipient">Получатель</label><div class="product-recipient"><input id="product-recipient" maxlength="33" autocomplete="off" spellcheck="false" value="${esc(product.recipient)}" placeholder="Введите Телеграм юзернейм"><button class="primary" data-up="product-self">Отправить себе</button></div>
-      ${premium?`<label class="product-label">Длительность</label><div class="premium-periods">${[[3,'3 месяца',10.3936],[6,'6 месяцев',13.8649],[12,'1 год',25.1416]].map(([n,label,price])=>`<button data-up-period="${n}" class="${product.period===n?'active':''}" aria-pressed="${product.period===n}"><span>${label}</span><span>${gram()} ${amount(price)}</span></button>`).join('')}</div>`:`<label class="product-label" for="product-amount">Количество</label><input id="product-amount" type="number" min="50" max="1000000" step="1" value="${product.amount}" inputmode="numeric"><div class="product-presets">${[50,100,500,1000].map(n=>`<button class="secondary" data-up-stars="${n}">${star('stars')} ${n}</button>`).join('')}</div>`}</div>
-      <p id="product-error" class="form-error" role="alert"></p><button class="primary product-review" data-up="product-review">Посмотреть заказ ${gram()} <span data-product-price>${amount(productPrice())}</span></button>
+      ${premium?`<label class="product-label">Длительность</label><div class="premium-periods">${[[3,'3 месяца',10.3936],[6,'6 месяцев',13.8649],[12,'1 год',25.1416]].map(([n,label,price])=>`<button data-up-period="${n}" class="${product.period===n?'active':''}" aria-pressed="${product.period===n}"><span>${label}</span><span>${priceGram()} ${amount(price)}</span></button>`).join('')}</div>`:`<label class="product-label" for="product-amount">Количество</label><input id="product-amount" type="number" min="50" max="1000000" step="1" value="${product.amount}" inputmode="numeric"><div class="product-presets">${[50,100,500,1000].map(n=>`<button class="secondary" data-up-stars="${n}">${star('stars')} ${n}</button>`).join('')}</div>`}</div>
+      <p id="product-error" class="form-error" role="alert"></p><button class="primary product-review" data-up="product-review">Посмотреть заказ ${priceGram()} <span data-product-price>${amount(productPrice())}</span></button>
       <p class="reference-note">Стоимость по референсу. Оплата и доставка Stars/Premium в этом приложении не подключены.</p></section>`;
   }
   function reviewProduct(){
@@ -37,10 +38,10 @@
     const error=!/^@[A-Za-z][A-Za-z0-9_]{3,31}$/.test(product.recipient)?'Укажите корректный @username получателя.':product.kind==='stars'&&(!Number.isInteger(product.amount)||product.amount<50||product.amount>1000000)?'Количество звёзд: целое число от 50 до 1 000 000.':'';
     if(error){document.getElementById('product-error').textContent=error;return;}
     const premium=product.kind==='premium',title=premium?'Телеграм премиум':'Телеграм звезды';
-    show(title,`<div class="product-confirm">${star(product.kind)}<h3>${title}</h3><p>${premium?'Длительность: '+({3:'3 месяца',6:'6 месяцев',12:'1 год'}[product.period]):'Количество: '+product.amount}</p><h2>Вы уверены, что хотите купить ${premium?'Telegram Premium':'Звёзды'} для <span class="yellow">${esc(product.recipient)}</span>?</h2><div class="product-total">${gram()} ${amount(productPrice())}</div><div class="product-balance">Баланс: ${gram()} 0</div><p class="reference-note">Актуальная цена не получена. Платёжный сервис не подключён.</p><button class="primary" disabled>Оплата недоступна</button><button class="secondary" data-up="close">Отмена</button></div>`,'product-confirm-sheet');
+    show(title,`<div class="product-confirm">${star(product.kind)}<h3>${title}</h3><p>${premium?'Длительность: '+({3:'3 месяца',6:'6 месяцев',12:'1 год'}[product.period]):'Количество: '+product.amount}</p><h2>Вы уверены, что хотите купить ${premium?'Telegram Premium':'Звёзды'} для <span class="yellow">${esc(product.recipient)}</span>?</h2><div class="product-total">${priceGram()} ${amount(productPrice())}</div><div class="product-balance">Баланс: ${gram()} 0</div><p class="reference-note">Актуальная цена не получена. Платёжный сервис не подключён.</p><button class="primary" disabled>Оплата недоступна</button><button class="secondary" data-up="close">Отмена</button></div>`,'product-confirm-sheet');
   }
   function unavailable(kind='hub'){
-    if(kind==='skins')return '<section class="catalog-loading" aria-label="Раздел CS2 недоступен"><span class="catalog-loader" aria-hidden="true"></span></section>';
+    if(kind==='skins')return '<section class="unavailable updated-unavailable"><h1>Инвентарь CS2</h1><p>Steam-аккаунт ещё не подключён. Доступных скинов нет.</p><button class="secondary" data-cs2-refresh>Проверить снова</button></section>';
     return `<section class="unavailable updated-unavailable">${art('ui/globe-unavailable.png','')}<h1>PlayHub сейчас недоступен :(</h1><p>Попробуйте зайти позже</p></section>`;
   }
   function luckyRow(g,i){

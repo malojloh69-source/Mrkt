@@ -22,7 +22,11 @@ class FrontendPatchTests(unittest.TestCase):
             root=Path(tmp);public=root/'public';patch=root/'frontend_patch'
             public.mkdir();patch.mkdir();outside=root/'outside';outside.mkdir()
             (public/'index.html').write_text('base')
-            (public/'escape').symlink_to(outside,target_is_directory=True)
+            try:
+                (public/'escape').symlink_to(outside,target_is_directory=True)
+            except OSError as exc:
+                if getattr(exc,'winerror',None)==1314:self.skipTest('Windows requires symlink privileges')
+                raise
             (patch/'escape').mkdir();(patch/'escape'/'x.js').write_text('must not escape')
             with self.assertRaises(RuntimeError):ensure_site(root)
             self.assertFalse((outside/'x.js').exists())

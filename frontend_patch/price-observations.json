@@ -1,0 +1,29 @@
+[
+  {
+    "collection": "Vice Cream",
+    "background": null,
+    "listing_floor": "4.01",
+    "quick_sell": "3.96",
+    "currency": "GRAM",
+    "captured_at": "2026-10-30T21:23:14.335Z",
+    "source": "MRKT Mini App; collection filter floor and quick sale quote"
+  },
+  {
+    "collection": "Vice Cream",
+    "background": "Black",
+    "listing_floor": "26.51",
+    "quick_sell": "25.02",
+    "currency": "GRAM",
+    "captured_at": "2026-10-30T21:23:14.335Z",
+    "source": "MRKT Mini App; one background selected, listing sort price ascending"
+  },
+  {
+    "collection": "Vice Cream",
+    "background": "Camo Green",
+    "listing_floor": "4.01",
+    "quick_sell": "3.96",
+    "currency": "GRAM",
+    "captured_at": "2026-10-30T21:29:52.015Z",
+    "source": "MRKT Mini App; Camo Green selected; listing sort price ascending"
+  }
+]

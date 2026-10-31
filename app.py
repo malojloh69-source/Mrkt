@@ -13,6 +13,8 @@ from collector import Collector
 from bot_service import TelegramBot
 from telegram_auth import verify_init_data, AuthError
 from prepare_site import ensure_site
+from payments import register_payments
+from gift_catalog import register_catalog
 
 def create_app(settings=None, *, store=None, collector=None, bot=None):
     settings=settings or Settings.from_env()
@@ -24,6 +26,8 @@ def create_app(settings=None, *, store=None, collector=None, bot=None):
     app.config.update(MAX_CONTENT_LENGTH=32768,JSON_SORT_KEYS=False)
     app.extensions.update(settings=settings,store=store,collector=collector,bot=bot)
     public=ROOT/'public'
+    register_payments(app,settings,store)
+    register_catalog(app,settings,store,public)
 
     def admin(handler):
         @functools.wraps(handler)

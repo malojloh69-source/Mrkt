@@ -1,0 +1,6 @@
+.price-static-gram{display:inline-block;width:14px;height:14px;flex:none;background:#fed813;mask:url('assets/updates/price-gram.svg') center/contain no-repeat;-webkit-mask:url('assets/updates/price-gram.svg') center/contain no-repeat;animation:none!important;transform:none!important;vertical-align:middle}
+.ton-recipient{font-size:13px;color:#bbb;overflow-wrap:anywhere;line-height:1.5;padding:8px 0}.funds-deposit .funds-input:after{content:'TON';font-size:14px;color:#ddd}.funds-deposit .funds-error{overflow-wrap:anywhere}.funds-deposit .funds-art img{max-height:130px}
+#quote-form{display:grid;gap:14px}#quote-form label{display:grid;gap:6px}#quote-form input,#quote-form select{font:inherit;background:#222223;border:1px solid #404044;border-radius:8px;padding:12px;color:#e5e5ea;width:100%}#quote-result{padding:12px 0;font-size:14px;line-height:1.5}
+.ton-receipts{display:grid;gap:8px;font-size:13px}.ton-receipts button{white-space:normal;text-align:left}
+.funds-deposit .funds-input>.gram{display:none}
+.catalog-loading:has(.catalog-loader){min-height:160px}

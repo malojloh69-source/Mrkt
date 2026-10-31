@@ -1,0 +1,26 @@
+{
+  "collections": 133,
+  "models": 7806,
+  "loader": {
+    "source": "https://cdn.tgmrkt.io/index.html#/",
+    "assets": [
+      {
+        "url": "https://cdn.tgmrkt.io/images/halloween-loader/pumpkin.webp",
+        "file": "assets/original/cdn.tgmrkt.io/images/halloween-loader/pumpkin.webp",
+        "sha256": "009178a07d51ac07361a90540a0c6b0440f9bcb345eb778a5aca48afbf9805ce"
+      },
+      {
+        "url": "https://cdn.tgmrkt.io/images/halloween-loader/pumpkin-front.webp",
+        "file": "assets/original/cdn.tgmrkt.io/images/halloween-loader/pumpkin-front.webp",
+        "sha256": "1b490ab3c1f95b51da80e5d8d1dd2bd593461124c08f1823f88f84046fd9bf39"
+      }
+    ]
+  },
+  "capturedAt": "2026-10-30T21:25:21.541Z",
+  "backdrops": 80,
+  "modelsCache": "Original bytes mirrored on demand into DATA_DIR/gift-art",
+  "gamingChannel": {
+    "url": "https://t.me/+XJOmctihaqszNjBi",
+    "source": "Opened through official MRKT ecosystem menu; channel title MRKT Gaming verified; no subscription made"
+  }
+}

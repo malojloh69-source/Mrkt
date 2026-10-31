@@ -1,0 +1,46 @@
+{
+  "source": "Visible Telegram chat with @mrktbank; these messages are historical, not current holdings",
+  "capturedAt": "2026-10-30T21:12:00Z",
+  "items": [
+    {
+      "collection": "Vice Cream",
+      "number": 304056,
+      "model": "Classic",
+      "background": "Camo Green",
+      "symbol": "Crystal",
+      "status": "historical_sent_to_bank_not_current_inventory"
+    },
+    {
+      "collection": "Pet Snake",
+      "number": 36366,
+      "model": "Rainforest",
+      "background": "Ivory White",
+      "symbol": "Candle",
+      "status": "historical_sent_to_bank_not_current_inventory"
+    },
+    {
+      "collection": "Vice Cream",
+      "number": 298064,
+      "model": "Rock Solid",
+      "background": "Malachite",
+      "symbol": "Horned Helm",
+      "status": "historical_sent_to_bank_not_current_inventory"
+    },
+    {
+      "collection": "B-Day Candle",
+      "number": 66896,
+      "model": "Summer Walk",
+      "background": "Electric Indigo",
+      "symbol": "Monstera",
+      "status": "historical_sent_to_bank_not_current_inventory"
+    },
+    {
+      "collection": "Candy Cane",
+      "number": 159032,
+      "model": "Diggory",
+      "background": "French Violet",
+      "symbol": "Coin Purse",
+      "status": "historical_sent_to_bank_not_current_inventory"
+    }
+  ]
+}

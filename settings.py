@@ -27,6 +27,8 @@ class Settings:
     api_key: str = ''
     sync_interval: int = 60
     max_pages: int = 25
+    ton_deposit_wallet: str = 'UQAnvk0ZBh884n9Sb_vBg05do10BXIBl6URoBBMBWgSNtQAj'
+    toncenter_api_key: str = ''
 
     @classmethod
     def from_env(cls):
@@ -36,4 +38,6 @@ class Settings:
                    admin_id=int(os.getenv('ADMIN_TELEGRAM_ID') or '0'), port=int(os.getenv('PORT', '3000')),
                    data_dir=Path(data), api_key=os.getenv('SWIFT_API_KEY', '').strip(),
                    sync_interval=max(30, int(os.getenv('SYNC_INTERVAL', '60'))),
-                   max_pages=max(1, min(1001, int(os.getenv('SYNC_MAX_PAGES', '25')))))
+                   max_pages=max(1, min(1001, int(os.getenv('SYNC_MAX_PAGES', '25')))),
+                   ton_deposit_wallet=os.getenv('TON_DEPOSIT_WALLET','UQAnvk0ZBh884n9Sb_vBg05do10BXIBl6URoBBMBWgSNtQAj').strip(),
+                   toncenter_api_key=os.getenv('TONCENTER_API_KEY','').strip())
