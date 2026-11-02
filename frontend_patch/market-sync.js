@@ -21,6 +21,7 @@
   return data;
  }
  async function refresh(more=false){
+  if(window.__MRKT_DEMO?.enabled)return;
   if(inflight||stopped||!/^https?:$/.test(location.protocol))return;
   if(more&&state.next===null)return;
   inflight=true;state.loading=true;
