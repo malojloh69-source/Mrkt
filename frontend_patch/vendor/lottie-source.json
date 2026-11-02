@@ -1,0 +1,9 @@
+{
+  "package": "lottie-web",
+  "version": "5.13.0",
+  "source": "https://github.com/airbnb/lottie-web",
+  "tarball": "https://registry.npmjs.org/lottie-web/-/lottie-web-5.13.0.tgz",
+  "integrity": "sha512-+gfBXl6sxXMPe8tKQm7qzLnUy5DUPJPKIyRHwtpCpyUEYjHYRJC/5gjUvdkuO2c3JllrPtHXH5UJJK8LRYl5yQ==",
+  "build": "build/player/lottie_light_canvas.min.js",
+  "sha256": "0930bfecb5b5dad59dd9049a139fa957e57f70e0805fc94a311204e524e45e28"
+}

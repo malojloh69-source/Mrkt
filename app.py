@@ -15,6 +15,7 @@ from telegram_auth import verify_init_data, AuthError
 from prepare_site import ensure_site
 from payments import register_payments
 from gift_catalog import register_catalog
+from bank_nfts import register_bank_nfts
 
 def create_app(settings=None, *, store=None, collector=None, bot=None):
     settings=settings or Settings.from_env()
@@ -28,6 +29,7 @@ def create_app(settings=None, *, store=None, collector=None, bot=None):
     public=ROOT/'public'
     register_payments(app,settings,store)
     register_catalog(app,settings,store,public)
+    register_bank_nfts(app,settings,public)
 
     def admin(handler):
         @functools.wraps(handler)

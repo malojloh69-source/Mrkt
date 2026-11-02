@@ -1,0 +1,12 @@
+.purchase-art,.nft-detail-hero{position:relative}
+.gift-image{border:0;padding:0;background:none}
+.gift-art>.gift-image{display:grid;place-items:center;cursor:pointer}
+.nft-animation-layer{position:absolute;inset:0;overflow:hidden;border-radius:inherit;opacity:0;pointer-events:none}
+.nft-animation-ready>.nft-animation-layer{opacity:1}
+.nft-animation-ready>img,.nft-animation-ready>.reference-art{visibility:hidden}
+.nft-animation-pattern{position:absolute;width:14%;height:14%;mask-size:contain;mask-position:center;mask-repeat:no-repeat;transform:rotate(-12deg)}
+.nft-animation-scene{position:absolute;inset:8%;z-index:1}
+.nft-animation-scene canvas{display:block;width:100%!important;height:100%!important;object-fit:contain}
+.bank-model-art::before{content:"";position:absolute;inset:8%;background-color:var(--bank-pattern-color);opacity:.17;mask-image:var(--bank-pattern);mask-size:22%;mask-repeat:space}
+.bank-model-art .gift-image{position:relative;z-index:1}
+.gift-art.bank-model-art>.gift-image>img{width:85%;height:85%;object-fit:contain}
