@@ -11,8 +11,6 @@
  }
  function notify(){
   if(state.connected)window.__MRKT_APP?.setCatalog(state.items);
-  const label=document.getElementById('catalog-source-label');
-  if(label){label.textContent=state.connected?(state.stale?'Каталог · сохранено':`Каталог · ${state.total.toLocaleString('ru-RU')}`):'Сохранённый каталог';label.title=state.updatedAt?'Обновлено '+new Date(state.updatedAt*1000).toLocaleString('ru-RU'):'';}
  }
  async function read(offset){
   const response=await fetch(`/api/catalog?limit=${pageSize}&offset=${offset}`,{cache:'no-store',headers:{Accept:'application/json'}});

@@ -19,13 +19,12 @@
   for(const el of doc.querySelectorAll('button,a,[data-source-link]')){const url=links[normalize(el.textContent)];if(url){el.dataset.ecosystemUrl=url;if(el.tagName==='A'){el.href=url;el.rel='noopener noreferrer';el.target='_blank';}}}
   for(const root of doc.querySelectorAll('[role="dialog"]'))if(root.textContent.includes('СООБЩЕСТВО')&&!root.querySelector('.ecosystem-extra')){
    const extra=doc.createElement('div');extra.className='ecosystem-extra';extra.style.cssText='padding:12px 16px;display:grid;gap:12px;color:#e5e5ea';
-   for(const [title,url] of [['Платформа MRKT','https://mrkt.land/'],['Mini App MRKT','https://t.me/mrkt'],['Бот Peek.tg','https://t.me/peektgbot']]){const a=doc.createElement('a');a.textContent=title;a.href=url;a.dataset.ecosystemUrl=url;a.style.color='inherit';extra.append(a);}const prices=doc.createElement('a');prices.textContent='Цены NFT';prices.href='#';prices.dataset.nftQuotes='';prices.style.color='inherit';extra.append(prices);root.append(extra);
+   for(const [title,url] of [['Платформа MRKT','https://mrkt.land/'],['Mini App MRKT','https://t.me/mrkt'],['Бот Peek.tg','https://t.me/peektgbot']]){const a=doc.createElement('a');a.textContent=title;a.href=url;a.dataset.ecosystemUrl=url;a.style.color='inherit';extra.append(a);}root.append(extra);
   }
   if(docs.has(doc))return;docs.add(doc);
   doc.addEventListener('click',e=>{if(e.target.closest?.('[data-nft-quotes]')){e.preventDefault();e.stopImmediatePropagation();showQuotes();return;}const node=e.target.closest?.('[data-ecosystem-url]');if(!node)return;e.preventDefault();e.stopImmediatePropagation();open(node.dataset.ecosystemUrl);},true);
  }
  function inspect(){apply(document);for(const f of document.querySelectorAll('iframe')){if(!frames.has(f)){frames.add(f);f.addEventListener('load',()=>{try{apply(f.contentDocument);}catch{}});}try{apply(f.contentDocument);}catch{}}
-  for(const detail of document.querySelectorAll('.nft-detail-view'))if(!detail.querySelector('[data-nft-quotes]')){const b=document.createElement('button');b.className='secondary';b.dataset.nftQuotes='';b.textContent='Цены по фонам и быстрая продажа';detail.append(b);}
  }
  new MutationObserver(inspect).observe(document.body,{subtree:true,childList:true});inspect();
  document.addEventListener('click',e=>{if(e.target.closest('[data-cs2-refresh]')){e.preventDefault();ui().render();}if(e.target.closest('[data-nft-quotes]'))showQuotes();if(e.target.closest('[data-ton-check]'))checkPayment(document.getElementById('funding-error'));});

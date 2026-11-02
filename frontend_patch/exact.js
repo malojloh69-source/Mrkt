@@ -76,7 +76,7 @@
     const note=message=>send('notice',message);
     const close=()=>send('back');
     const closestClass=(el,prefix)=>el.closest('[class*="'+prefix+'"]');
-    document.addEventListener('submit',e=>{e.preventDefault();note('Форма доступна для просмотра в локальной копии.');});
+    document.addEventListener('submit',e=>{e.preventDefault();note('Отправка формы временно недоступна.');});
     document.addEventListener('click',e=>{
       const target=e.target instanceof Element?e.target:e.target.parentElement;
       const tab=target.closest('[class*="_tab_14fxt_"]');
@@ -86,7 +86,7 @@
       if(points&&text(points).includes('MRKT Points')){go('/profile/points');return;}
       if(current==='/tasks'&&(closestClass(target,'_card_sxdeq_')||closestClass(target,'_hint_1qpno_'))){go('/tasks/leaderboard');return;}
       const orderRow=closestClass(target,'_orderItem_17j94_');
-      if(current==='/orders'&&orderRow){if(text(orderRow).startsWith('Plush Pepe'))go('/orders/collection/plush-pepe');else note('Подробности этого ордера не сохранены в локальном снимке.');return;}
+      if(current==='/orders'&&orderRow){if(text(orderRow).startsWith('Plush Pepe'))go('/orders/collection/plush-pepe');else note('Подробности ордера временно недоступны.');return;}
       if(current==='/orders/create'&&(target.matches('input[placeholder="Выбрать"]')||target.closest('[class*="_input_rjyph_"]')?.querySelector('input[placeholder="Выбрать"]'))){go('/orders/create/collection');return;}
       const button=target.closest('button,[role="tab"],a,[data-source-link]');
       if(!button)return;
@@ -94,7 +94,7 @@
       const t=text(button), cls=String(button.className);
       if(button.matches('[class*="_avatar_"]')){go('/profile');return;}
       if(button.getAttribute('aria-label')==='Close'||button.closest('#tc-widget-root')&&button.querySelector('svg')&&!t){close();return;}
-      if(current==='/wallet-connect'||button.closest('#tc-widget-root')){note('Подключение кошелька недоступно в локальной копии.');return;}
+      if(current==='/wallet-connect'||button.closest('#tc-widget-root')){note('Подключение кошелька временно недоступно.');return;}
       if(cls.includes('_iconButton_1k6lb_')){
         const all=[...document.querySelectorAll('button[class*="_iconButton_1k6lb_"]')];
         const index=all.indexOf(button);if(index===2){note('Канал MRKT открывается в Telegram.');return;}go(['/halloween','/staking','','/menu'][index]||'/menu');return;
@@ -108,7 +108,7 @@
       if(/^Ордера\d*$/.test(t)){go('/orders/my');return;}
       if(/^Офферы\d*$/.test(t)){go('/profile/offers');return;}
       if(current==='/profile/offers'&&t==='Выставить на продажу'){go('/storage');return;}
-      if(current.startsWith('/profile/points')){if(t==='История')go('/profile/points');else if(t==='Сгорающие points')go('/profile/points/expiring');else note('Раздел открыт в локальном режиме.');return;}
+      if(current.startsWith('/profile/points')){if(t==='История')go('/profile/points');else if(t==='Сгорающие points')go('/profile/points/expiring');else note('Раздел временно недоступен.');return;}
       if(current.startsWith('/profile/gram')){if(t==='История')go('/profile/gram');else if(t==='Заблокированные GRAM')go('/profile/gram/locked');return;}
       if(current.startsWith('/menu')){if(t==='Официальные каналы'){go(current==='/menu/channels'?'/menu':'/menu/channels');return;}note('Этот пункт открывается в Telegram.');return;}
       if(current==='/halloween'){
@@ -137,7 +137,7 @@
         if(t==='Создать каналы'||cls.includes('_createButton_')){go('/storage/channels/create');return;}
         if(base==='/storage/channels'&&cls.includes('_button_1x2gz_')){go('/storage/channels/rules');return;}
         if(t==='Отмена'){close();return;}
-        if(t==='Создать'){note('Форма заполнена локально. Сервис хранения ещё не подключён.');return;}
+        if(t==='Создать'){note('Не удалось создать коллекцию. Попробуйте позже.');return;}
         if(t==='Показать результаты'){go(base);return;}
         if(t==='Сбросить'){document.querySelectorAll('input').forEach(e=>{if(e.type==='checkbox')e.checked=false;else e.value='';});return;}
         if(cls.includes('_allFiltersButton_')){go(base+'/filters');return;}
@@ -155,7 +155,7 @@
         if(t==='Мои ордеры'){go(base+'/my');return;}
         if(/Создать ордер/.test(t)||button.getAttribute('aria-label')==='Создать ордер'){go(base+'/create');return;}
         if(t==='Отмена'||t==='Сохранить'){go('/orders/create');return;}
-        if(t==='Создать'){note('Форма заполнена локально. Ордер не размещён.');return;}
+        if(t==='Создать'){note('Ордер не размещён. Попробуйте позже.');return;}
         if(t==='Назад'){go('/orders');return;}
         if(t==='Продать'){note('Продажа требует подключения собственного сервиса.');return;}
       }
