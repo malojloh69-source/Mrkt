@@ -56,7 +56,11 @@ class PaymentTests(unittest.TestCase):
         get.return_value=Mock();get.return_value.json.return_value={'transactions':[tx,self.chain(i,bounced=True)]}
         self.assertEqual(self.status(i).json['status'],'pending')
     def test_metadata_and_snapshot_currency_are_explicit(self):
-        meta=self.client.get('/api/gift-collections').json;self.assertEqual(len(meta['collections']),133)
+        meta=self.client.get('/api/gift-collections').json;self.assertEqual(len(meta['collections']),134)
+        myth=next(c for c in meta['collections'] if c['id']=='myth-mask')
+        self.assertEqual(len(myth['models']),134);self.assertEqual(myth['currency'],'GRAM')
+        floor=self.client.get('/api/market/quote?collection=Myth+Mask').json['quotes'][0]
+        self.assertEqual(floor['listing_floor'],11.38);self.assertEqual(floor['currency'],'GRAM');self.assertIsNone(floor['quick_sell'])
         quote=self.client.get('/api/market/quote?collection=Vice+Cream&background=Black').json
         self.assertEqual(quote['quotes'][0]['quick_sell'],'25.02');self.assertEqual(quote['quotes'][0]['currency'],'GRAM')
         with self.store.connect() as db:

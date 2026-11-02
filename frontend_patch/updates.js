@@ -94,7 +94,7 @@
     }catch(error){ui().toast(error.message);if(button.isConnected)button.disabled=false;}
   }
   function giftPage(g){
-    if(g.read_only)return `<section class="nft-detail-view live-gift-detail"><button class="secondary" data-up="catalog">${icon('back')} Назад</button>${g.image?`<img src="${esc(g.image)}" alt="${esc(g.name)}" referrerpolicy="no-referrer">`:''}<h1>${esc(g.name)}</h1><div class="nft-number">#${esc(g.number??'—')}</div><strong>${amount(g.price)} TON</strong><p>${[g.model,g.background,g.symbol].filter(Boolean).map(esc).join(' · ')}</p>${g.url?`<a class="primary" href="${esc(g.url)}" target="_blank" rel="noopener noreferrer">Открыть NFT в Telegram</a>`:''}</section>`;
+    if(g.read_only)return `<section class="nft-detail-view live-gift-detail"><button class="secondary" data-up="catalog">${icon('back')} Назад</button>${g.image?`<img src="${esc(g.image)}" alt="${esc(g.name)}" referrerpolicy="no-referrer">`:''}<h1>${esc(g.name)}</h1><div class="nft-number">#${esc(g.number??'—')}</div><strong>${amount(g.price)} ${esc(g.currency||"TON")}</strong><p>${[g.model,g.background,g.symbol].filter(Boolean).map(esc).join(' · ')}</p>${g.url?`<a class="primary" href="${esc(g.url)}" target="_blank" rel="noopener noreferrer">Открыть NFT в Telegram</a>`:''}</section>`;
     const isObserved=g.id==='lol-pop-285611';
     const attr=(label,value,extra='')=>`<button class="nft-attribute" data-up-trait="${label}" data-up-id="${esc(g.id)}"><span>${label}</span>${extra}<strong>${esc(value||'—')} ↗</strong></button>`;
     const rows=isObserved?[['Листинг','30 окт. 14:54:33',4.16],['Покупка','30 окт. 14:52:53',3.98],['Листинг','30 окт. 14:52:53',3.98]]:[];
@@ -129,7 +129,7 @@
     if(b.dataset.up)actions[b.dataset.up]?.(b);
     else if(b.dataset.upPeriod){product.period=Number(b.dataset.upPeriod);preserveRender();}
     else if(b.dataset.upStars){product.amount=Number(b.dataset.upStars);preserveRender();}
-    else if(b.dataset.upLiveGift){const g=ui().giftById(b.dataset.upLiveGift);if(!g)return;show(g.name,`<div class="live-gift-detail">${g.image?`<img src="${esc(g.image)}" alt="${esc(g.name)}" referrerpolicy="no-referrer">`:''}<h3>${esc(g.name)} #${esc(g.number??'—')}</h3><p>${[g.model,g.background,g.symbol].filter(Boolean).map(esc).join(' · ')}</p><strong>${amount(g.price)} TON</strong>${g.url?`<a class="primary" href="${esc(g.url)}" target="_blank" rel="noopener noreferrer">Открыть NFT в Telegram</a>`:''}</div>`);}
+    else if(b.dataset.upLiveGift){const g=ui().giftById(b.dataset.upLiveGift);if(!g)return;show(g.name,`<div class="live-gift-detail">${g.image?`<img src="${esc(g.image)}" alt="${esc(g.name)}" referrerpolicy="no-referrer">`:''}<h3>${esc(g.name)} #${esc(g.number??'—')}</h3><p>${[g.model,g.background,g.symbol].filter(Boolean).map(esc).join(' · ')}</p><strong>${amount(g.price)} ${esc(g.currency||"TON")}</strong>${g.url?`<a class="primary" href="${esc(g.url)}" target="_blank" rel="noopener noreferrer">Открыть NFT в Telegram</a>`:''}</div>`);}
     else if(b.dataset.upReport)reportDialog(b.dataset.upReport);
     else if(b.dataset.upChannel){const g=ref.channels.find(g=>g.id===b.dataset.upChannel);show('@'+g.username,`${art(g.image,g.collection,'channel-detail-art')}<p>Подарков: ${g.count}</p><p>Цена: ${amount(g.price)} GRAM</p>${note()}<p>Покупка и передача канала не подключены.</p><button class="secondary" data-up="channel-rules">Правила сделки</button><button class="primary" data-up="close">Закрыть</button>`);}
     else if(b.dataset.upDetailTab){detail.tab=b.dataset.upDetailTab;preserveRender();}
