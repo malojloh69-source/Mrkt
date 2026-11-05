@@ -11,6 +11,8 @@
     const banner=document.createElement('aside');banner.className='demo-banner';banner.setAttribute('aria-label','Демонстрационный режим');
     banner.innerHTML='<div><strong>ДЕМО</strong>Виртуальные GRAM · Настоящие активы не передаются</div><button data-demo-action="wallet">Демо-кошелёк</button>';
     document.body.prepend(banner);
+    const sizeBanner=()=>document.body.style.setProperty("--demo-banner-height",Math.ceil(banner.getBoundingClientRect().height+4)+"px");
+    new ResizeObserver(sizeBanner).observe(banner);sizeBanner();
     const update=()=>{app.account.balances.GRAM=Number(D.balance());app.render();};
     D.subscribe(update);D.ready.then(update).catch(error=>{banner.querySelector('div').textContent='ДЕМО · Хранилище браузера недоступно. Покупки отключены.';showError(error);});
   }
@@ -49,10 +51,6 @@
     app.state.sheet='demo-wallet';
     app.showSheet('Демо-кошелёк',`${notice}<p>Тестовый баланс сохраняется в этом браузере.</p><div class="demo-wallet-balance">${D.balance()} виртуальных GRAM</div><p>${kind==='withdraw'?'Виртуальные GRAM нельзя вывести.':'Стартовый баланс — 1 000 GRAM. Добавление тестовых GRAM бесплатно.'}</p><div class="demo-success-actions"><button class="primary" data-demo-action="grant">Добавить 1 000 тестовых GRAM</button>${pending?'<button class="secondary" data-demo-action="return-checkout">Вернуться к демо-покупке</button>':''}<button class="secondary" data-demo-action="reset">Сбросить демо-данные</button><button class="secondary" data-demo-action="close">Закрыть</button></div>`);
   }
-  function storage(){
-    const items=D.inventory();
-    return `<section class="page-pad"><h1>Демо-хранилище</h1>${notice}<p>${items.length} тестовых предметов. Настоящие NFT остаются у своих владельцев.</p></section>${items.length?`<div class="catalog-grid">${items.map(app.giftCard).join('')}</div>`:'<section class="page-pad"><p>Здесь появятся покупки за виртуальные GRAM.</p><button class="secondary" data-go="/">Открыть каталог</button></section>'}`;
-  }
   function history(){
     const rows=D.receipts().slice(-50).reverse();
     return rows.length?rows.map(r=>`<div class="demo-history-row"><strong>Демо-покупка · −${D.format(r.total)} GRAM</strong><div>${app.escape(r.lines.map(l=>l.name+(l.number?' #'+l.number:'')).join(', '))}</div><small>${app.escape(new Date(r.at).toLocaleString('ru-RU'))} · Баланс после покупки ${D.format(r.balance_after)} виртуальных GRAM</small></div>`).join(''):'<div class="history-empty">История демо-покупок пуста</div>';
@@ -74,5 +72,5 @@
       }
     }catch(error){showError(error);button.disabled=false;}
   },true);
-  window.__MRKT_DEMO_UI={install,checkout,wallet,storage,history,notice,closed:()=>{pending=null;}};
+  window.__MRKT_DEMO_UI={install,checkout,wallet,history,notice,closed:()=>{pending=null;}};
 })();
