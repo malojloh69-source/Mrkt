@@ -19,7 +19,6 @@
     return '/storage';
   }
   function resolveScreen(key){
-    if(window.__MRKT_DEMO&&/^\/(?:storage|orders)(?:\/|$)/.test(key))return null;
     if(key==='/profile'||key.startsWith('/play-hub')||/^\/(storage|orders|profile)\/skins(?:\/|$)/.test(key))return null;
     if(byRoute.has(key))return byRoute.get(key);
     if(/^\/(?:storage|orders)(?:\/(?:skins|bundles|channels))?\/(?:filters|sort|filter\/nft)$/.test(key)){
